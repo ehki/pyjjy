@@ -1,5 +1,7 @@
 import numpy as np
+import argparse
 import datetime
+import signal
 import time
 from pyaudio import PyAudio as pa
 from pyaudio import paFloat32
@@ -116,7 +118,6 @@ class JJYsig:
 
     def play(self):
         '''Set interval timer to call tone function.'''
-        import signal
         signal.signal(signal.SIGALRM, self.tone)
         now = datetime.datetime.now()
         wait = 1.0 - now.microsecond / 1e6
@@ -147,8 +148,6 @@ class JJYsig:
 
 
 if __name__ == '__main__':
-
-    import argparse
 
     parser = argparse.ArgumentParser(
         description='JJY emurator using python and pyaudio')
