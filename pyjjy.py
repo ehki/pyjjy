@@ -147,8 +147,7 @@ class JJYsig:
             self.update_seq(now)
 
 
-if __name__ == '__main__':
-
+def main():
     parser = argparse.ArgumentParser(
         description='JJY emurator using python and pyaudio')
 
@@ -160,3 +159,7 @@ if __name__ == '__main__':
 
     jj = JJYsig(**{k: v for k, v in vars(args).items() if v is not None})
     jj.play()
+
+
+if __name__ == '__main__':
+    main()
