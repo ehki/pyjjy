@@ -1,7 +1,8 @@
-import numpy as np
 import argparse
 import datetime
+import math
 import signal
+import struct
 import time
 from pyaudio import PyAudio as pa
 from pyaudio import paFloat32
@@ -34,11 +35,11 @@ class JJYsig:
         self.dat = []
         self.rate = samplerate
         self.elaps = 1
-        self.waves = [
-            np.sin(2 * np.pi * self.frequency
-                   * np.linspace(0., width, int(self.rate * width)))
-            for width in [0.8, 0.5, 0.2]
-        ]
+        self.waves = []
+        for width in [0.8, 0.5, 0.2]:
+            _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
+                  for _i in range(0, int(self.rate * width))]
+            self.waves.append(_d)
         self.stream = pa().open(
             format=paFloat32, channels=channels,
             rate=self.rate, frames_per_buffer=chunk, output=True
@@ -133,8 +134,9 @@ class JJYsig:
     def tone(self, *args):
         '''Send one-shot signal.'''
         now = datetime.datetime.now()
-        value = self.dat[now.second]
-        sound = (self.waves[value]).astype(np.float32).tobytes()
+        value = self.dat[now.second]  # -1, 0, or 1
+        raw = self.waves[value]  # list of float
+        sound = struct.pack('%sf' % len(raw), *raw)  # cast to float32
         self.stream.write(sound)
 
         # Exit excecution if specified time has passed
