@@ -35,11 +35,7 @@ class JJYsig:
         self.dat = []
         self.rate = samplerate
         self.elaps = 1
-        self.waves = []
-        for width in [0.8, 0.5, 0.2]:
-            _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
-                  for _i in range(0, int(self.rate * width))]
-            self.waves.append(_d)
+        self.waves = self.generate_wave()
         self.stream = pa().open(
             format=paFloat32, channels=channels,
             rate=self.rate, frames_per_buffer=chunk, output=True
@@ -57,6 +53,17 @@ class JJYsig:
             self.dat.append(value)
         else:
             self.dat.extend(value)
+
+    def generate_wave(self):
+        '''Generate three audio signals as float32 byte arrays'''
+        wvs = []  # list of waves
+        for width in [0.8, 0.5, 0.2]:
+            _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
+                  for _i in range(0, int(self.rate * width))]
+            print(_d)
+            raw = struct.pack('f'*len(_d), *_d)  # cast to float byte array
+            wvs.append(raw)
+        return wvs
 
     def update_seq(self, tim):
         '''Generate signal sequence for this minute.'''
@@ -135,8 +142,7 @@ class JJYsig:
         '''Send one-shot signal.'''
         now = datetime.datetime.now()
         value = self.dat[now.second]  # -1, 0, or 1
-        raw = self.waves[value]  # list of float
-        sound = struct.pack('%sf' % len(raw), *raw)  # cast to float32
+        sound = self.waves[value]
         self.stream.write(sound)
 
         # Exit excecution if specified time has passed
