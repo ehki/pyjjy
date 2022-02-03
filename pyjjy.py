@@ -6,9 +6,26 @@ from pyaudio import paFloat32
 
 
 class JJYsig:
+    '''JJY emurator using python and pyaudio'''
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
             chunk=1024, duration=float('inf')):
+        '''Constructor for JJYsig, with defaults.
+
+        Parameters
+        ----------
+        samplerate : float, default 44100
+            sampling rate
+        frequency : float, default 13333
+            frequency of signal tone,
+            JJY wave of 40 kHz is generated as 3rd harmonic of 13.333k Hz.
+        channels : int, default 1
+            number of channels
+        chunk : int, default 1024
+            specifies the number of frames per buffer
+        duration : float, default infty
+            duration of JJY signal output in sec.
+        '''
 
         self.duration = duration
         self.frequency = frequency
@@ -39,7 +56,7 @@ class JJYsig:
             self.dat.extend(value)
 
     def update_seq(self, tim):
-        '''Generate signal sequence for this minute'''
+        '''Generate signal sequence for this minute.'''
 
         self.reset()
 
@@ -98,6 +115,7 @@ class JJYsig:
         self.putdat([0, 0, 0, 0, -1])
 
     def play(self):
+        '''Set interval timer to call tone function.'''
         import signal
         signal.signal(signal.SIGALRM, self.tone)
         now = datetime.datetime.now()
@@ -112,15 +130,18 @@ class JJYsig:
         exit(0)
 
     def tone(self, *args):
+        '''Send one-shot signal.'''
         now = datetime.datetime.now()
         value = self.dat[now.second]
         sound = (self.waves[value]).astype(np.float32).tobytes()
         self.stream.write(sound)
 
+        # Exit excecution if specified time has passed
         if self.elaps >= self.duration:
             self.exit()
         self.elaps += 1
 
+        # Update at every 0 second
         if now.second == 0:
             self.update_seq(now)
 
