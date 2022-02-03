@@ -1,7 +1,6 @@
 import argparse
 import datetime
 import math
-import signal
 import struct
 import time
 from pyaudio import PyAudio as pa
@@ -60,7 +59,6 @@ class JJYsig:
         for width in [0.8, 0.5, 0.2]:
             _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
                   for _i in range(0, int(self.rate * width))]
-            print(_d)
             raw = struct.pack('f'*len(_d), *_d)  # cast to float byte array
             wvs.append(raw)
         return wvs
@@ -126,22 +124,21 @@ class JJYsig:
 
     def play(self):
         '''Set interval timer to call tone function.'''
-        signal.signal(signal.SIGALRM, self.tone)
-        now = datetime.datetime.now()
-        wait = 1.0 - now.microsecond / 1e6
-        intv = 1.0
-        signal.setitimer(signal.ITIMER_REAL, wait, intv)
         while True:
-            time.sleep(100)  # dummy run
+            time.sleep(1e-5)
+            now = datetime.datetime.now()
+            ms = now.microsecond // 1000.
+            # if 0 ms comes, send a tone to the system.
+            if not ms:
+                self.tone(now.second)
 
     def exit(self):
         '''Exit execution.'''
         exit(0)
 
-    def tone(self, *args):
+    def tone(self, sec):
         '''Send one-shot signal.'''
-        now = datetime.datetime.now()
-        value = self.dat[now.second]  # -1, 0, or 1
+        value = self.dat[sec]  # -1, 0, or 1
         sound = self.waves[value]
         self.stream.write(sound)
 
@@ -151,8 +148,8 @@ class JJYsig:
         self.elaps += 1
 
         # Update at every 0 second
-        if now.second == 0:
-            self.update_seq(now)
+        if sec == 0:
+            self.update_seq(datetime.datetime.now())
 
 
 def main():
