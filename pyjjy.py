@@ -159,8 +159,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='JJY emurator using python and pyaudio')
 
-    parser.add_argument('-r', '--samplerate', type=float, help='sampling rate')
-    parser.add_argument('-f', '--frequency', type=float, help='tone frequency')
+    parser.add_argument('-r', '--samplerate', type=int, help='sampling rate')
+    parser.add_argument('-f', '--frequency', type=int, help='tone frequency')
     parser.add_argument('-d', '--duration', type=int, help='run duration')
 
     args = parser.parse_args()
