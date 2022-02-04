@@ -8,8 +8,8 @@ from pyaudio import paFloat32
 
 
 class JJYsig:
-    '''JJY emurator using python and pyaudio
-    
+    """JJY emurator using python and pyaudio
+
     Attributes
     ----------
     duration : int
@@ -30,11 +30,11 @@ class JJYsig:
     ----------
     To play 10 minutes JJY signal, execute the following command.
         $ python pyjjy.py -d 600
-    '''
+    """
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
             chunk=1024, duration=float('inf')):
-        '''Constructor for JJYsig, with defaults.
+        """Constructor for JJYsig, with defaults.
 
         Parameters
         ----------
@@ -49,7 +49,7 @@ class JJYsig:
             specifies the number of frames per buffer
         duration : float, default infty
             duration of JJY signal output in sec.
-        '''
+        """
 
         self.duration = duration
         self.frequency = frequency
@@ -65,18 +65,18 @@ class JJYsig:
         self.update_seq(datetime.datetime.now())
 
     def reset(self):
-        '''Reset dat list to empty.'''
+        """Reset dat list to empty."""
         self.dat = []
 
     def putdat(self, value):
-        '''Put one or multiple items to the dat list.'''
+        """Put one or multiple items to the dat list."""
         if type(value) is int:
             self.dat.append(value)
         else:
             self.dat.extend(value)
 
     def generate_wave(self):
-        '''Generate three audio signals as float32 byte arrays'''
+        """Generate three audio signals as float32 byte arrays"""
         wvs = []  # list of waves
         for width in [0.8, 0.5, 0.2]:
             _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
@@ -86,7 +86,7 @@ class JJYsig:
         return wvs
 
     def update_seq(self, tim):
-        '''Generate signal sequence for this minute.'''
+        """Generate signal sequence for this minute."""
 
         self.reset()
 
@@ -145,7 +145,7 @@ class JJYsig:
         self.putdat([0, 0, 0, 0, -1])
 
     def play(self):
-        '''Set interval timer to call tone function.'''
+        """Set interval timer to call tone function."""
         while self.elaps <= self.duration:
             time.sleep(1e-5)
             now = datetime.datetime.now()
@@ -155,7 +155,7 @@ class JJYsig:
                 self.tone(now.second)
 
     def tone(self, sec):
-        '''Send one-shot signal.'''
+        """Send one-shot signal."""
         value = self.dat[sec]  # -1, 0, or 1
         sound = self.waves[value]
         self.stream.write(sound)
