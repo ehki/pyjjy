@@ -8,7 +8,24 @@ from pyaudio import paFloat32
 
 
 class JJYsig:
-    '''JJY emurator using python and pyaudio'''
+    '''JJY emurator using python and pyaudio
+    
+    Attributes
+    ----------
+    duration : float
+        duration of JJY signal output in sec.
+    frequency : float
+        frequency of signal tone,
+        JJY wave of 40 kHz is generated as 3rd harmonic of 13.333k Hz.
+    rate : int
+        sampling rate
+    dat : list
+        60 data of -1, 0, or 1
+    waves : list
+        3 sine waves of the duration of 0.8, 0.5, and 0.2 seconds
+    elaps : int
+        elapsed time of execution
+    '''
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
             chunk=1024, duration=float('inf')):
