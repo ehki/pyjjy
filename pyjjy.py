@@ -25,6 +25,11 @@ class JJYsig:
         3 sine waves of the duration of 0.8, 0.5, and 0.2 seconds
     elaps : int
         elapsed time of execution
+
+    Example
+    ----------
+    To play 10 minutes JJY signal, execute the following command.
+        $ python pyjjy.py -d 600
     '''
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
