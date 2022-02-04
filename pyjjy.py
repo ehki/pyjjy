@@ -12,9 +12,9 @@ class JJYsig:
     
     Attributes
     ----------
-    duration : float
+    duration : int
         duration of JJY signal output in sec.
-    frequency : float
+    frequency : int
         frequency of signal tone,
         JJY wave of 40 kHz is generated as 3rd harmonic of 13.333k Hz.
     rate : int
@@ -33,9 +33,9 @@ class JJYsig:
 
         Parameters
         ----------
-        samplerate : float, default 44100
+        samplerate : int, default 44100
             sampling rate
-        frequency : float, default 13333
+        frequency : int, default 13333
             frequency of signal tone,
             JJY wave of 40 kHz is generated as 3rd harmonic of 13.333k Hz.
         channels : int, default 1
