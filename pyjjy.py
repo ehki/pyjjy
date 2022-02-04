@@ -141,7 +141,7 @@ class JJYsig:
 
     def play(self):
         '''Set interval timer to call tone function.'''
-        while True:
+        while self.elaps <= self.duration:
             time.sleep(1e-5)
             now = datetime.datetime.now()
             ms = now.microsecond // 1000.
@@ -149,19 +149,13 @@ class JJYsig:
             if not ms:
                 self.tone(now.second)
 
-    def exit(self):
-        '''Exit execution.'''
-        exit(0)
-
     def tone(self, sec):
         '''Send one-shot signal.'''
         value = self.dat[sec]  # -1, 0, or 1
         sound = self.waves[value]
         self.stream.write(sound)
 
-        # Exit excecution if specified time has passed
-        if self.elaps >= self.duration:
-            self.exit()
+        # Count up elapsed time
         self.elaps += 1
 
         # Update at every 0 second
