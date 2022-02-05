@@ -26,10 +26,14 @@ class JJYsig:
     elaps : int
         elapsed time of execution
 
-    Example
+    Examples
     ----------
     To play 10 minutes JJY signal, execute the following command.
         $ python pyjjy.py -d 600
+    or,
+        >>> from pyjjy import JJYsig
+        >>> jj = JJYsig(duration=600)
+        >>> jj.play()
     """
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
