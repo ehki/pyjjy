@@ -7,8 +7,8 @@ from pyaudio import PyAudio as pa
 from pyaudio import paFloat32
 
 
-class JJYsig:
-    """JJY emurator using python and pyaudio
+class JJYsignal:
+    """JJY signal emurator using python and pyaudio
 
     Attributes
     ----------
@@ -31,14 +31,14 @@ class JJYsig:
     To play 10 minutes JJY signal, execute the following command.
         $ python pyjjy.py -d 600
     or,
-        >>> from pyjjy import JJYsig
-        >>> jj = JJYsig(duration=600)
+        >>> from pyjjy import JJYsignal
+        >>> jj = JJYsignal(duration=600)
         >>> jj.play()
     """
     def __init__(
             self, samplerate=44100, frequency=13333, channels=1,
             chunk=1024, duration=float('inf')):
-        """Constructor for JJYsig, with defaults.
+        """Constructor for JJYsignal, with defaults.
 
         Parameters
         ----------
@@ -174,7 +174,7 @@ class JJYsig:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='JJY emurator using python and pyaudio')
+        description='JJY signal emurator using python and pyaudio')
 
     parser.add_argument('-r', '--samplerate', type=int, help='sampling rate')
     parser.add_argument('-f', '--frequency', type=int, help='tone frequency')
@@ -182,7 +182,7 @@ def main():
 
     args = parser.parse_args()
 
-    jj = JJYsig(**{k: v for k, v in vars(args).items() if v is not None})
+    jj = JJYsignal(**{k: v for k, v in vars(args).items() if v is not None})
     jj.play()
 
 
