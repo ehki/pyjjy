@@ -8,7 +8,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setup(
     name='pyjjy',
-    version=pyjjy.version(),
+    version=pyjjy.__version__,
     url='http://pypi.python.org/pypi/pyjjy/',
     author='Haruki EJIRI',
     author_email='0y35.ejiri.vmqewyhw@gmail.com',
