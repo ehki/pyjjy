@@ -66,3 +66,11 @@ class TestPyJJY(unittest.TestCase):
              0, 0, 0, 0, 0, 0, -1
              ]
         )
+
+    def test_pulse_length(self):
+        sr = 44100
+        jj = pyjjy.JJYsignal(samplerate=sr)
+        # 4x pulse time is float32 binary length
+        self.assertEqual(len(jj.waves[0]), sr*0.8*4)
+        self.assertEqual(len(jj.waves[1]), sr*0.5*4)
+        self.assertEqual(len(jj.waves[2]), sr*0.2*4)
