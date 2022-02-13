@@ -74,3 +74,13 @@ class TestPyJJY(unittest.TestCase):
         self.assertEqual(len(jj.waves[0]), sr*0.8*4)
         self.assertEqual(len(jj.waves[1]), sr*0.5*4)
         self.assertEqual(len(jj.waves[2]), sr*0.2*4)
+
+    def test_duration(self):
+        d = 20
+        jj = pyjjy.JJYsignal(duration=d)
+        t_strt = datetime.datetime.now()
+        jj.play()
+        t_stop = datetime.datetime.now()
+        dt_sec = (t_stop-t_strt).total_seconds()
+        self.assertGreater(dt_sec, d)
+        self.assertLess(dt_sec, d+1)
