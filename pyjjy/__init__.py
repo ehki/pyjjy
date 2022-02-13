@@ -1,7 +1,7 @@
 from .pyjjy import JJYsignal, main
 
 __copyright__ = 'Copyright (C) 2022 Haruki EJIRI'
-__version__ = '0.2'
+__version__ = '0.3-dev'
 __license__ = 'MIT'
 __author__ = 'Haruki EJIRI'
 __author_email__ = '0y35.ejiri.vmqewyhw@gmail.com'
