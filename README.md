@@ -4,7 +4,7 @@
 ## 使い方
 10分間のJJY信号を送信する実行方法の例を以下に示します。
 ```
-$ python pyjjy.py -d 600
+$ python -m pyjjy -d 600
 ```
 Python内からの呼び出しも可能です。
 ```python
