@@ -170,10 +170,13 @@ class JJYsignal:
         self._putdata([0, 0, 0, 0, -1])
 
     def play(self):
-        """Set interval timer to call tone function.
+        """Send one tone pulse every 0 ms in a 50 us loop.
         Exit if elapsed time >= duration.
-        Send one pulse every 0 ms in a 50 us loop.
+        If platform is windows, goto playwin function.
         """
+        import sys
+        if sys.platform == 'win32':
+            return self.playwin()
         while self.elaps <= self.duration:
             time.sleep(1e-5)
             now = datetime.datetime.now()
@@ -181,6 +184,27 @@ class JJYsignal:
             # if 0 ms comes, send a tone to the system.
             if not ms:
                 self.tone(now.second)
+
+    def playwin(self):
+        """Windows datetime resolution issue workaround.
+        Time is measured using time.perf_counter.
+        """
+        now = datetime.datetime.now()
+        sec_strt = now.second + 1  # start from next second
+        wait_for = 1 - now.microsecond*1e-6  # time to next second
+
+        # Wait until next 0 ms
+        t0 = time.perf_counter()
+        while (time.perf_counter() - t0) < wait_for:
+            continue
+
+        # Start sending using time.perf_counter() as timer
+        t0 = time.perf_counter()
+        while self.elaps <= self.duration:
+            ms_full, sec = math.modf(time.perf_counter() - t0)
+            if not math.modf(ms_full*1e3)[1]:
+                send_sec = (sec_strt + int(sec)) % 60
+                self.tone(send_sec)
 
     def tone(self, sec):
         """Send one-shot signal.
