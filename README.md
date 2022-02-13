@@ -36,6 +36,15 @@ Mac環境では、例えば次のような運用により自動時刻合わせ�
 - アンテナ (AMループアンテナを鉄釘に巻き直したバーアンテナ)
 - 電波時計 (CITIZEN AT8181-63E)
 
+- MacBook Air (Mid 2013)
+- macOS Catalina 10.15.5
+- Python 3.9.7 (installed via miniconda)
+- PyAudio 0.2.11 (installed via pip)
+
+- Windows 11 Pro 21H2
+- Python 3.8.12 (installed via miniconda)
+- PyAudio 0.2.11 (installed via conda)
+
 ## 免責事項
 利用の結果生じた損害について、一切責任を負いません。
 
