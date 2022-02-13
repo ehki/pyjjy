@@ -1,6 +1,12 @@
 # pyjjy
 電波時計の時刻合わせに使用される標準電波JJYをPythonとPyAudioで再現するスクリプトです。shogo82148氏の[web-jjy](https://github.com/shogo82148/web-jjy)と同様に、一般的な機器で出力可能な13.333kHzを出力し、第3高調波がJJYおおたかどや山標準電波送信所の送信波周波数である40kHzとなることを利用しています。PortAudioとPyAudioに依存します。
 
+## インストール
+PyIPから最新版をインストール可能です。
+```
+pip install pyjjy --upgrade
+```
+
 ## 使い方
 10分間のJJY信号を送信する実行方法の例を以下に示します。
 ```
