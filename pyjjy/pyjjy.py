@@ -170,9 +170,9 @@ class JJYsignal:
         self._putdata([0, 0, 0, 0, -1])
 
     def play(self):
-        """Set interval timer to call tone function.
+        """Send one tone pulse every 0 ms in a 50 us loop.
         Exit if elapsed time >= duration.
-        Send one pulse every 0 ms in a 50 us loop.
+        If platform is windows, goto playwin function.
         """
         import sys
         if sys.platform == 'win32':
