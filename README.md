@@ -1,10 +1,19 @@
 # pyjjy
-電波時計の時刻合わせに使用される標準電波JJYをPythonとPyAudioで再現するスクリプトです。shogo82148氏の[web-jjy](https://github.com/shogo82148/web-jjy)と同様に、一般的な機器で出力可能な13.333kHzを出力し、第3高調波がJJYおおたかどや山標準電波送信所の送信波周波数である40kHzとなることを利用しています。PortAudioとPyAudioに依存します。
+電波時計の時刻合わせに使用される標準電波JJYをPythonとPyAudioで再現するスクリプトです。
+shogo82148氏の[web-jjy](https://github.com/shogo82148/web-jjy)と同様に、一般的な機器で出力可能な13.333kHzを出力し、第3高調波がJJYおおたかどや山標準電波送信所の送信波周波数である40kHzとなることを利用しています。
+PortAudioとPyAudioに依存します。
+動作させるPCの時刻を出力するため、標準時からずれる場合があります。
+
+## インストール
+PyIPから最新版をインストール可能です。
+```
+pip install pyjjy --upgrade
+```
 
 ## 使い方
 10分間のJJY信号を送信する実行方法の例を以下に示します。
 ```
-$ python pyjjy.py -d 600
+$ python -m pyjjy -d 600
 ```
 Python内からの呼び出しも可能です。
 ```python
@@ -20,7 +29,7 @@ Mac環境では、例えば次のような運用により自動時刻合わせ�
 1. cronやlaunchdを用いてスリープに入るAppleScriptを自動実行する
 
 ## 動作環境
-以下の環境で動作を確認しています。
+以下の環境で動作と受信を確認しています。
 
 - Mac mini (M1, 2020)
 - macOS Monterey 12.0.1
@@ -29,6 +38,19 @@ Mac環境では、例えば次のような運用により自動時刻合わせ�
 - PyAudio 0.2.11 (installed via conda)
 - アンテナ (AMループアンテナを鉄釘に巻き直したバーアンテナ)
 - 電波時計 (CITIZEN AT8181-63E)
+
+また、次の環境でも信号出力を確認しています。
+
+- MacBook Air (Mid 2013)
+- macOS Catalina 10.15.5
+- Python 3.9.7 (installed via miniconda)
+- PyAudio 0.2.11 (installed via pip)
+
+Windows環境でも信号出力を確認しています。
+
+- Windows 11 Pro 21H2
+- Python 3.8.12 (installed via miniconda)
+- PyAudio 0.2.11 (installed via conda)
 
 ## 免責事項
 利用の結果生じた損害について、一切責任を負いません。
