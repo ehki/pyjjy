@@ -19,6 +19,7 @@ setup(
     include_package_data=True,
     install_requires=['PyAudio>=0.2.11'],
     long_description=long_description,
+    long_description_content_type='text/markdown',
 
     classifiers=[
         'Development Status :: 4 - Beta',
