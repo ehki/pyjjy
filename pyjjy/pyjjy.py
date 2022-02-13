@@ -69,18 +69,32 @@ class JJYsignal:
         self.update_seq(datetime.datetime.now())
 
     def reset(self):
-        """Reset dat list to empty."""
+        """Reset dat list to empty.
+        """
         self.dat = []
 
     def putdat(self, value):
-        """Put one or multiple items to the dat list."""
+        """Put one or multiple items to the dat list.
+
+        Parameters
+        ----------
+        value : int or list
+            One of (-1, 0, 1), or list of them
+        """
         if type(value) is int:
             self.dat.append(value)
         else:
             self.dat.extend(value)
 
     def generate_wave(self):
-        """Generate three audio signals as float32 byte arrays"""
+        """Generate three audio signals as float32 byte arrays.
+
+        Returns
+        -------
+        wvs : list
+            List of signals corresponds to [0, 1, 'marker'].
+            Lengths of the signales are [0.8, 0.5, 0.2] seconds.
+        """
         wvs = []  # list of waves
         for width in [0.8, 0.5, 0.2]:
             _d = [math.sin(2 * math.pi * self.frequency * _i / self.rate)
@@ -90,7 +104,14 @@ class JJYsignal:
         return wvs
 
     def update_seq(self, tim):
-        """Generate signal sequence for this minute."""
+        """Generate signal sequence for this minute.
+
+        Parameters
+        ----------
+        tim : datetime.datetime
+            Time to convert JJY signal.
+            'marker' signal is stored as -1.
+        """
 
         self.reset()
 
@@ -149,7 +170,10 @@ class JJYsignal:
         self.putdat([0, 0, 0, 0, -1])
 
     def play(self):
-        """Set interval timer to call tone function."""
+        """Set interval timer to call tone function.
+        Exit if elapsed time >= duration.
+        Send one pulse every 0 ms in a 50 us loop.
+        """
         while self.elaps <= self.duration:
             time.sleep(1e-5)
             now = datetime.datetime.now()
@@ -159,7 +183,14 @@ class JJYsignal:
                 self.tone(now.second)
 
     def tone(self, sec):
-        """Send one-shot signal."""
+        """Send one-shot signal.
+
+        Parameters
+        ----------
+        sec : int
+            Second number to play.
+            Minimum is 0, and maximum is 59.
+        """
         value = self.dat[sec]  # -1, 0, or 1
         sound = self.waves[value]
         self.stream.write(sound)
@@ -187,4 +218,5 @@ def main():
 
 
 if __name__ == '__main__':
+    # execute with python -m pyjjy
     main()
