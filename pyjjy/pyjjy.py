@@ -60,7 +60,7 @@ class JJYsignal:
         self.timecode = []
         self.rate = samplerate
         self.elaps = 1
-        self.waves = self.generate_wave()
+        self.waves = self._generate_wave()
         self.stream = pa().open(
             format=paFloat32, channels=channels,
             rate=self.rate, frames_per_buffer=chunk, output=True
@@ -68,7 +68,7 @@ class JJYsignal:
         # Initial signal sequence update
         self.update_seq(datetime.datetime.now())
 
-    def reset(self):
+    def _reset(self):
         """Reset timecode list to empty.
         """
         self.timecode = []
@@ -86,7 +86,7 @@ class JJYsignal:
         else:
             self.timecode.extend(value)
 
-    def generate_wave(self):
+    def _generate_wave(self):
         """Generate three audio signals as float32 byte arrays.
 
         Returns
@@ -113,7 +113,7 @@ class JJYsignal:
             'marker' signal is stored as -1.
         """
 
-        self.reset()
+        self._reset()
 
         # Starting marker
         self._putdata(-1)
