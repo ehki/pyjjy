@@ -19,7 +19,7 @@ class JJYsignal:
         JJY wave of 40 kHz is generated as 3rd harmonic of 13.333k Hz.
     rate : int
         sampling rate
-    dat : list
+    timecode : list
         60 data of -1, 0, or 1
     waves : list
         3 sine waves of the duration of 0.8, 0.5, and 0.2 seconds
@@ -57,7 +57,7 @@ class JJYsignal:
 
         self.duration = duration
         self.frequency = frequency
-        self.dat = []
+        self.timecode = []
         self.rate = samplerate
         self.elaps = 1
         self.waves = self.generate_wave()
@@ -69,12 +69,12 @@ class JJYsignal:
         self.update_seq(datetime.datetime.now())
 
     def reset(self):
-        """Reset dat list to empty.
+        """Reset timecode list to empty.
         """
-        self.dat = []
+        self.timecode = []
 
     def putdat(self, value):
-        """Put one or multiple items to the dat list.
+        """Put one or multiple items to the timecode list.
 
         Parameters
         ----------
@@ -82,9 +82,9 @@ class JJYsignal:
             One of (-1, 0, 1), or list of them
         """
         if type(value) is int:
-            self.dat.append(value)
+            self.timecode.append(value)
         else:
-            self.dat.extend(value)
+            self.timecode.extend(value)
 
     def generate_wave(self):
         """Generate three audio signals as float32 byte arrays.
@@ -191,7 +191,7 @@ class JJYsignal:
             Second number to play.
             Minimum is 0, and maximum is 59.
         """
-        value = self.dat[sec]  # -1, 0, or 1
+        value = self.timecode[sec]  # -1, 0, or 1
         sound = self.waves[value]
         self.stream.write(sound)
 

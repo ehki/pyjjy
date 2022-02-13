@@ -10,7 +10,7 @@ class TestPyJJY(unittest.TestCase):
         jj = pyjjy.JJYsignal()
         jj.update_seq(testtime)
         self.assertEqual(
-            jj.dat,
+            jj.timecode,
             [-1,  # marker
              1, 0, 0,  # 10 minutes BCD
              0,
@@ -41,7 +41,7 @@ class TestPyJJY(unittest.TestCase):
         jj = pyjjy.JJYsignal()
         jj.update_seq(testtime)
         self.assertEqual(
-            jj.dat,
+            jj.timecode,
             [-1,  # marker
              0, 1, 1,  # 10 minutes BCD
              0,
